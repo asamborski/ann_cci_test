@@ -1,12 +1,11 @@
 version: 2.1
-
 workflows:
-  build-workflow:
+  testing:
     jobs:
-      - runner
+      - runner-test
 jobs:
-  runner:
+  runner-test:
     machine: true
-    resource_class: <namespace>/<resource-class>
+    resource_class: ann_cci_test/runner_demo
     steps:
-      - run: echo "Hi I'm on Runners!"
+      - run: echo "Helllloooooo, I'm ann's test runner!!!"
