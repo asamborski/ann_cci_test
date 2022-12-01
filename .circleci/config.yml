@@ -1,20 +1,31 @@
 version: 2.1
 
 jobs:
-  runner:
+  mac-runner:
     machine: true
     resource_class: ann_cci_test/mac
     steps:
       - run: echo "Hi I'm the mac runner!!!!"
-  runner-test:
+  sa-example:
     machine: true
     resource_class: ann_cci_test/runner_demo
     steps:
-      - run: echo "Helllloooooo, I'm ann's test runner!!!"
-      
+      # Install the zli
+      - run: sudo yum-config-manager --add-repo https://download-yum.bastionzero.com/bastionzero.repo
+      - run: sudo yum install -y zli
+      - run: zli --version
+      # # Install the AWS CLI and download credentials needed for your BastionZero service account
+      # - run: pip install awscli
+      # #  Make sure to replace these URIs with your own values
+      # - run: aws s3 cp s3://circle-ci-sa-example/provider-creds.json provider-creds.json
+      # - run: aws s3 cp s3://circle-ci-sa-example/bzero-creds.json bzero-creds.json
+      # # Log in as your BastionZero service account and list your targets
+      # - run: zli service-account login --providerCreds provider-creds.json --bzeroCreds bzero-creds.json
+      # - run: zli lt
+
 workflows:
-  say-hello-workflows:
+  example-workflows:
     jobs:
-      - runner-test
-      - runner
+      - mac-runner
+      - sa-example
 
