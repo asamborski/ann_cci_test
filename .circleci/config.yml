@@ -11,6 +11,9 @@ jobs:
     resource_class: ann_cci_test/runner_demo
     steps:
       # Install the zli
+      - run: whoami
+      - run: pwd
+      - run: echo "HELLO" 
       - run: sudo yum-config-manager --add-repo https://download-yum.bastionzero.com/bastionzero.repo
       - run: sudo yum install -y zli
       - run: zli --version
