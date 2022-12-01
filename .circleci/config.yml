@@ -1,11 +1,20 @@
 version: 2.1
-workflows:
-  testing:
-    jobs:
-      - runner-test
+
 jobs:
+  runner:
+    machine: true
+    resource_class: ann_cci_test/mac
+    steps:
+      - run: echo "Hi I'm the mac runner!!!!"
   runner-test:
     machine: true
     resource_class: ann_cci_test/runner_demo
     steps:
       - run: echo "Helllloooooo, I'm ann's test runner!!!"
+      
+workflows:
+  say-hello-workflows:
+    jobs:
+      - runner-test
+      - runner
+
