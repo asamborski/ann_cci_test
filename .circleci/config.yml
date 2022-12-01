@@ -1,19 +1,37 @@
 version: 2.1
 
 jobs:
-  mac-runner:
-    machine: true
-    resource_class: ann_cci_test/mac
-    steps:
-      - run: echo "Hi I'm the mac runner!!!!"
+  # mac-runner:
+  #   machine: true
+  #   resource_class: ann_cci_test/mac
+  #   steps:
+  #     - run: echo "Hi I'm the mac runner!!!!"
   sa-example:
-    machine: true
-    resource_class: ann_cci_test/runner_demo
+    machine:
+      image: ubuntu-2204:2022.07.1
     steps:
       # Install the zli
-      - run: yum-config-manager --add-repo https://download-yum.bastionzero.com/bastionzero.repo
-      - run: yum install -y zli
+      - run: sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E5C358E613982017
+      - run: sudo add-apt-repository 'deb http://download-apt.bastionzero.com/production/apt-repo stable main' -y
+      - run: sudo apt update
+      - run: sudo apt install -y zli
       - run: zli --version
+      # # Install the AWS cli and download the credentials files
+      # - run: pip install awscli
+      # #  Make sure to replace these URIs with your own values
+      # - run: aws s3 cp s3://circle-ci-sa-example/provider-creds.json provider-creds.json
+      # - run: aws s3 cp s3://circle-ci-sa-example/bzero-creds.json bzero-creds.json
+      # # Login as a BastionZero service account and perform any intended action
+      # - run: zli service-account login --providerCreds provider-creds.json --bzeroCreds bzero-creds.json
+      # - run: zli lt
+
+    # machine: true
+    # resource_class: ann_cci_test/runner_demo
+    # steps:
+    #   # Install the zli
+    #   - run: sudo yum-config-manager --add-repo https://download-yum.bastionzero.com/bastionzero.repo
+    #   - run: sudo yum install -y zli
+    #   - run: zli --version
       # # Install the AWS CLI and download credentials needed for your BastionZero service account
       # - run: pip install awscli
       # #  Make sure to replace these URIs with your own values
@@ -26,6 +44,5 @@ jobs:
 workflows:
   example-workflows:
     jobs:
-      - mac-runner
+      # - mac-runner
       - sa-example
-
